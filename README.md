@@ -56,11 +56,9 @@ All channel data, noise processes and attack scenarios are simulated.
 
 ### Step 1: Clone the repository
 
-Replace `OWNER` and `REPOSITORY` with the actual GitHub username and repository name.
-
 ```bash
-git clone https://github.com/OWNER/REPOSITORY.git
-cd REPOSITORY
+git clone https://github.com/srikrishna-k/BB84-Predictive-Channel-Monitoring.git
+cd BB84-Predictive-Channel-Monitoring
 ```
 
 Alternatively, download the repository using GitHub's **Code → Download ZIP** option and extract it.
@@ -336,17 +334,19 @@ These recent studies provide related context for time-varying quantum-channel es
 
 ## 11. Contributions and Acknowledgements
 
-**Project Developer:** Krishna
+### Project Developer
 
-**AI Development Assistance:** Claude (Anthropic)
+- **Krishna** — project direction, implementation decisions, experimental review, and final verification.
 
-Claude was used as an AI-assisted development collaborator throughout this project. Its contributions included assistance with Python implementation, code development, debugging, statistical methodology discussions, experimental analysis, interpretation of simulation results and technical documentation.
+### AI-Assisted Development
 
-The project concept, research direction, novelty objectives, experimental decisions, implementation choices and final evaluation were directed and reviewed by the project developer.
+- **Claude (Anthropic)** — assisted with Python implementation, code development, debugging, statistical methodology discussions, experimental analysis, interpretation of simulation results, and technical documentation.
+
+The project concept, research direction, novelty objectives, experimental decisions, implementation choices, and final evaluation were directed and reviewed by the project developer.
 
 AI-assisted outputs were subject to human review and verification. Claude is acknowledged transparently as an AI development tool and is not represented as a human author or independent researcher.
 
-The project developer retains responsibility for the final implementation, experimental claims, interpretation and documentation.
+The project developer retains responsibility for the final implementation, experimental claims, interpretation, and documentation.
 
 ---
 
