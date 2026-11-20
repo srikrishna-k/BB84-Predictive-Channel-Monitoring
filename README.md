@@ -6,7 +6,9 @@ A simulation-based study of predictive monitoring for a time-varying BB84 Quantu
 
 Instead of relying exclusively on a fixed Quantum Bit Error Rate (QBER) threshold, this project investigates whether learning the temporal behaviour of a quantum communication channel can help predict future QBER values and identify unusual deviations that may indicate interference.
 
-The central idea is to **learn the channel's temporal behaviour, predict what it should produce next, and investigate unexpected deviations from that prediction.**
+The central idea is to:
+
+**Learn the channel's temporal behaviour, predict what it should produce next, and investigate unexpected deviations from that prediction.**
 
 > **Scope:** This is a numerical simulation and channel-monitoring experiment, not a security proof or a deployable QKD system. An anomaly alarm indicates that the channel should be investigated; it does not establish that a key is secure. Real QKD deployments require appropriate finite-key security analysis and protocol-level abort rules.
 
@@ -54,12 +56,16 @@ All channel data, noise processes and attack scenarios are simulated.
 
 ### Step 1: Clone the repository
 
+Replace `OWNER` and `REPOSITORY` with the actual GitHub username and repository name.
+
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd BB84-Predictive-Channel-Monitoring
+git clone https://github.com/OWNER/REPOSITORY.git
+cd REPOSITORY
 ```
 
 Alternatively, download the repository using GitHub's **Code → Download ZIP** option and extract it.
+
+Open a terminal inside the extracted project directory.
 
 ### Step 2: Create a virtual environment (recommended)
 
@@ -168,8 +174,9 @@ The simulation is organized into the following stages.
 
 Introduces partial intercept-resend attacks under two scenarios:
 
-- Step attack: sudden introduction of an attack.
-- Ramp attack: gradual increase in attack intensity.
+**Step attack:** Sudden introduction of an attack.
+
+**Ramp attack:** Gradual increase in attack intensity.
 
 The objective is to investigate whether predictive monitoring can identify changes that may remain below conventional fixed QBER thresholds.
 
@@ -180,14 +187,51 @@ Compares multiple monitoring approaches:
 - Static QBER threshold.
 - Moving-average monitoring.
 - Innovation-based CUSUM.
-- Anomaly-gated quarantine logic.
+- Anomaly-gated state quarantine.
 - Joint QBER and detection-yield monitoring using Mahalanobis distance.
 
-### 5.7 Monte Carlo Evaluation
+The joint Mahalanobis detector evaluates QBER and detection-yield innovations together, accounting for their estimated correlation.
 
-Evaluates monitoring performance under different simulated attack strengths and sifted block sizes.
+It is evaluated separately in the gradual-ramp attack experiment and is not included in the Monte Carlo detector comparison.
 
-The analysis investigates detection probability and detection delay across repeated simulation trials.
+### 5.7 Monte Carlo Robustness Evaluation
+
+The Monte Carlo experiment compares four monitoring methods:
+
+1. Static QBER threshold.
+2. Moving-average monitoring.
+3. Innovation-based CUSUM.
+4. CUSUM with anomaly-gated quarantine.
+
+The main experiment evaluates seven partial intercept-resend attack strengths:
+
+```text
+f = 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.16
+```
+
+The detectors are calibrated on attack-free trajectories using a common target false-alarm rate of 0.01 per block, and evaluated on fresh simulated trajectories.
+
+The main experiment uses:
+
+- 150 calibration runs.
+- 150 independent evaluation runs.
+
+A separate block-size scaling experiment evaluates four sifted block sizes:
+
+```text
+500, 2000, 5000, 20000
+```
+
+This experiment uses 100 calibration runs and 100 evaluation runs for each block size, at an interception fraction of 0.10.
+
+The evaluation investigates:
+
+- Probability of detection within the attack window.
+- Mean detection delay when an attack is detected.
+- Held-out false-alarm behaviour.
+- Effect of sifted block size on detection performance.
+
+The joint QBER/yield Mahalanobis detector is evaluated separately in the ramp-attack experiment, not in this Monte Carlo comparison.
 
 ## 6. Execution and Validation
 
@@ -254,17 +298,60 @@ Numerical results may change if simulation parameters, random seeds or library v
 
 All experimental figures are regenerated when the program is executed.
 
-## 10. References and Acknowledgements
+## 10. References
 
-The project builds upon concepts from quantum key distribution, statistical forecasting and sequential anomaly detection.
+The project draws upon foundational research in quantum key distribution, quantum-channel modelling, statistical forecasting and anomaly detection.
 
-Relevant foundational references include:
+### Foundational BB84 and Quantum Cryptography
 
-1. C. H. Bennett and G. Brassard, "Quantum cryptography: Public key distribution and coin tossing," 1984.
-2. P. W. Shor and J. Preskill, "Simple Proof of Security of the BB84 Quantum Key Distribution Protocol," Physical Review Letters, 2000.
-3. N. Gisin et al., "Quantum Cryptography," Reviews of Modern Physics, 2002.
-4. E. S. Page, "Continuous Inspection Schemes," Biometrika, 1954.
-5. F. X. Diebold and R. S. Mariano, "Comparing Predictive Accuracy," Journal of Business & Economic Statistics, 1995.
-6. H. R. Künsch, "The Jackknife and the Bootstrap for General Stationary Observations," Annals of Statistics, 1989.
+1. C. H. Bennett and G. Brassard, "Quantum cryptography: Public key distribution and coin tossing," Proceedings of the IEEE International Conference on Computers, Systems and Signal Processing, 1984.
 
-**AI assistance:** Disclose any AI tools used during implementation, debugging, statistical analysis and documentation according to the applicable institutional or publication guidelines.
+2. P. W. Shor and J. Preskill, "Simple Proof of Security of the BB84 Quantum Key Distribution Protocol," Physical Review Letters, vol. 85, p. 441, 2000.
+
+3. N. Gisin, G. Ribordy, W. Tittel and H. Zbinden, "Quantum Cryptography," Reviews of Modern Physics, vol. 74, pp. 145–195, 2002.
+
+### Statistical Forecasting and Monitoring
+
+4. E. S. Page, "Continuous Inspection Schemes," Biometrika, vol. 41, pp. 100–115, 1954.
+
+5. F. X. Diebold and R. S. Mariano, "Comparing Predictive Accuracy," Journal of Business & Economic Statistics, vol. 13, pp. 253–263, 1995.
+
+6. H. R. Künsch, "The Jackknife and the Bootstrap for General Stationary Observations," The Annals of Statistics, vol. 17, pp. 1217–1241, 1989.
+
+### Recent Research on Time-Varying Quantum Channels and QKD Anomaly Detection
+
+7. J. Ur Rehman, H. Al-Hraishawi, T. Q. Duong, S. Chatzinotas and H. Shin, "On Estimating Time-Varying Pauli Noise," IEEE Transactions on Communications, vol. 72, no. 4, pp. 2079–2089, 2024.
+
+   DOI: https://doi.org/10.1109/TCOMM.2023.3341886
+
+8. J. Liu, B. Huang, J. Su, Q. Peng and A. Huang, "Deep Anomaly Detection for Active Attacks on the Receiver in Quantum Key Distribution," Optics Express, vol. 33, no. 22, pp. 47137–47150, 2025.
+
+   DOI: https://doi.org/10.1364/OE.575434
+
+9. S. P. Kish, C. Thapa, M. Sayat, H. Suzuki, J. Pieprzyk and S. Camtepe, "Mitigation of Channel Tampering Attacks in Continuous-Variable Quantum Key Distribution," Physical Review Research, vol. 6, 023301, 2024.
+
+   DOI: https://doi.org/10.1103/PhysRevResearch.6.023301
+
+These recent studies provide related context for time-varying quantum-channel estimation and QKD anomaly detection. They investigate different approaches and protocol settings; they should not be interpreted as validating the exact predictive monitoring framework implemented in this project.
+
+## 11. Contributions and Acknowledgements
+
+**Project Developer:** Krishna
+
+**AI Development Assistance:** Claude (Anthropic)
+
+Claude was used as an AI-assisted development collaborator throughout this project. Its contributions included assistance with Python implementation, code development, debugging, statistical methodology discussions, experimental analysis, interpretation of simulation results and technical documentation.
+
+The project concept, research direction, novelty objectives, experimental decisions, implementation choices and final evaluation were directed and reviewed by the project developer.
+
+AI-assisted outputs were subject to human review and verification. Claude is acknowledged transparently as an AI development tool and is not represented as a human author or independent researcher.
+
+The project developer retains responsibility for the final implementation, experimental claims, interpretation and documentation.
+
+---
+
+**Project Status:** Simulation-based research and experimental evaluation.
+
+**Implementation:** Python | NumPy | SciPy | Matplotlib
+
+**Repository:** BB84 Predictive Channel Monitoring
